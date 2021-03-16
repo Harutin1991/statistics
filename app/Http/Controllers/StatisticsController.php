@@ -48,12 +48,11 @@ class StatisticsController extends Controller
     {
         $success = true;
         $errorMessage = '';
-        $itemsResponse = [];
+        $budgetBalance = [];
         $pagesCount = 0;
         $isFinal = false;
         try{
             $allocations = $this->getAllocations($allocationType);
-            $budgetBalance = [];
             $budgetItems = Budget
                 ::where('allocation_type_id',$allocationType)
                 ->join('category', 'category.id', '=', 'budget_item.category_id')
@@ -66,7 +65,7 @@ class StatisticsController extends Controller
             $success = false;
             $errorMessage = $e->getMessage();
         }
-        return response()->json(['items' => $itemsResponse, 'pagesCount' => $pagesCount,'isSchoolAllocationFinal' => $isFinal, 'success'=>$success, 'errorMessage'=>$errorMessage]);
+        return response()->json(['budgetBalance' => $budgetBalance, 'success'=>$success, 'errorMessage'=>$errorMessage]);
     }
 
     public function getListOfAllFunds($allocationType,$schoolId = null, Request $request)
