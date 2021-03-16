@@ -60,8 +60,11 @@ class StatisticsController extends Controller
                 ->get();
             $totals[] = 0;
             foreach($budgetItems as $item) {
-                $totals[$item->categoryId] += $item->unit_total_cost;
-                $budgetBalance[$item->categoryId]['totals'] = $totals;
+                $totals[$item->categoryId][] = $item->unit_total_cost;
+            }
+
+            foreach($budgetItems as $item) {
+                $budgetBalance[$item->categoryId]['totals'] = array_sum($totals[$item->categoryId]);
                 $budgetBalance[$item->categoryId]['categoryName'] = $item->categoryName;
             }
         } catch (Throwable $e){
