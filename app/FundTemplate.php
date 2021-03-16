@@ -1,23 +1,24 @@
 <?php
 
 namespace App;
+
 use Illuminate\Database\Eloquent\Model;
 
-class SchoolYear extends Model
+class FundTemplate extends Model
 {
-    protected $table = 'school_year';
+    protected $table = 'fund_template';
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
-        'year_name','start_date', 'end_date','description'
+        'name', 'description', 'note'
     ];
 
     public function resolveChildRouteBinding($childType, $value, $field)
     {
         // TODO: Implement resolveChildRouteBinding() method.
     }
-
 }
