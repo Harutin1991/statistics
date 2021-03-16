@@ -49,7 +49,7 @@ class StatisticsController extends Controller
             ->get();
     }
 
-    public function getBudgetBalance($allocationType, $schoolId = null, Request $request)
+    public function getBudgetTotalsByCategory($allocationType, $schoolId = null, Request $request)
     {
         $success = true;
         $errorMessage = '';
@@ -69,9 +69,9 @@ class StatisticsController extends Controller
                 $totals[$item->categoryId][] = $item->unit_total_cost;
             }
 
-            foreach($categories as $category) {
-                $budgetBalance[]['totals'] = isset($totals[$category->id]) ? array_sum($totals[$category->id]) : 0;
-                $budgetBalance[]['categoryName'] = $category->name;
+            foreach($categories as $key=>$category) {
+                $budgetBalance[$key]['categoryName'] = $category->name;
+                $budgetBalance[$key]['totals'] = isset($totals[$category->id]) ? array_sum($totals[$category->id]) : 0;
             }
         } catch (Throwable $e){
             $success = false;
