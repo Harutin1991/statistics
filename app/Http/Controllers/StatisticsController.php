@@ -27,6 +27,11 @@ class StatisticsController extends Controller
         }
     }
 
+    public static function getCategory()
+    {
+        return Category::all();
+    }
+
     public function getTotalAllocations($allocationType,$schoolYearId = null, Request $request)
     {
         return Allocations::where('allocation_type_id',$allocationType)->select('total_allocation','is_final')->get();
@@ -53,6 +58,7 @@ class StatisticsController extends Controller
         $isFinal = false;
         try{
             $allocations = $this->getAllocations($allocationType);
+            $categories = self::getCategory();
             $budgetItems = Budget
                 ::where('allocation_type_id',$allocationType)
                 ->join('category', 'category.id', '=', 'budget_item.category_id')
@@ -63,9 +69,9 @@ class StatisticsController extends Controller
                 $totals[$item->categoryId][] = $item->unit_total_cost;
             }
 
-            foreach($budgetItems as $item) {
-                $budgetBalance[$item->categoryId]['totals'] = array_sum($totals[$item->categoryId]);
-                $budgetBalance[$item->categoryId]['categoryName'] = $item->categoryName;
+            foreach($categories as $category) {
+                $budgetBalance[]['totals'] = isset($totals[$category->id]) ? array_sum($totals[$category->id]) : 0;
+                $budgetBalance[]['categoryName'] = $category->name;
             }
         } catch (Throwable $e){
             $success = false;
