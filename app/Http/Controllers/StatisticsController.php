@@ -58,8 +58,11 @@ class StatisticsController extends Controller
                 ->join('category', 'category.id', '=', 'budget_item.category_id')
                 ->select('budget_item.unit_total_cost','category.name as categoryName','category.id as categoryId','budget_item.id as budgetId','budget_item.fund_id as fundId')
                 ->get();
+            $totals[] = 0;
             foreach($budgetItems as $item) {
-                $budgetBalance[$item->categoryName][] = $item->unit_total_cost;
+                $totals[$item->categoryId] += $item->unit_total_cost;
+                $budgetBalance[$item->categoryId]['totals'] = $totals;
+                $budgetBalance[$item->categoryId]['categoryName'] = $item->categoryName;
             }
         } catch (Throwable $e){
             $success = false;
