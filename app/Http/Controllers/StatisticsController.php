@@ -7,6 +7,7 @@ use App\Category;
 use App\Fund;
 use App\FundTemplate;
 use App\School;
+use App\SchoolYear;
 use App\AllocationFundTemplate;
 use Illuminate\Http\Request;
 
