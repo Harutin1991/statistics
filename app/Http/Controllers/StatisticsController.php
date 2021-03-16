@@ -52,7 +52,7 @@ class StatisticsController extends Controller
         $pagesCount = 0;
         $isFinal = false;
         try{
-            $allocations = $this->getAllocations();
+            $allocations = $this->getAllocations($allocationType);
             $budgetBalance = [];
             $budgetItems = Budget
                 ::where('allocation_type_id',$allocationType)
