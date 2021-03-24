@@ -107,4 +107,9 @@ class StatisticsController extends Controller
         }
         return response()->json(['items' => $itemsResponse, 'pagesCount' => $pagesCount,'isSchoolAllocationFinal' => $isFinal, 'success'=>$success, 'errorMessage'=>$errorMessage]);
     }
+
+    public function getTotalSpentInBudget($allocationType)
+    {
+
+    }
 }
