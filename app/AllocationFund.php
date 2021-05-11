@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AllocationFund extends Model
 {
-    protected $table = 'allocation_fund';
+    protected $table = 'allocation_fund_ref';
     public $timestamps = false;
 
     /**

@@ -11,5 +11,6 @@ $router->group(['prefix'=>'api/v1'], function() use($router){
     $router->get('/get-fund-list/{allocationType}', 'StatisticsController@getListOfAllFunds');
     $router->get('/get-total-spent/{allocationType}', 'StatisticsController@getTotalSpentFunds');
     $router->get('/get-remaining-balance/{allocationType}', 'StatisticsController@getRemainingBalance');
+    $router->get('/get-invoice-totals', 'StatisticsController@getInvoiceTotals');
 
 });

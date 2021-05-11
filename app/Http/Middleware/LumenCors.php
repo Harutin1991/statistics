@@ -98,17 +98,41 @@ class LumenCors {
      * @return mixed
      */
     public function handle($request, Closure $next) {
+        
+        $headers = [
+            'Access-Control-Allow-Origin'      => '*',
+            'Access-Control-Allow-Methods'     => 'POST, GET, OPTIONS, PUT, DELETE',
+            'Access-Control-Allow-Credentials' => 'true',
+            'Access-Control-Max-Age'           => '86400',
+            'Access-Control-Allow-Headers'     => 'Content-Type, Authorization, X-Requested-With'
+        ];
 
-        if ($request->isMethod('OPTIONS')) {
-            $response = new Response("", 200);
-        }
-        else {
-            $response = $next($request);
+        // if ($request->isMethod('OPTIONS')) {
+        //     $response = new Response("", 200);
+        // }
+        // else {
+        //     $response = $next($request);
+        // }
+
+        // $this->setCorsHeaders($request, $response);
+
+        // return $response;
+        
+        
+        
+         if ($request->isMethod('OPTIONS'))
+        {
+            return response()->json('{"method":"OPTIONS"}', 200, $headers);
         }
 
-        $this->setCorsHeaders($request, $response);
+        $response = $next($request);
+        foreach($headers as $key => $value)
+        {
+            $response->header($key, $value);
+        }
 
         return $response;
+        
     }
 
 }

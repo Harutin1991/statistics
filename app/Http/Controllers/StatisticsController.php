@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Allocations;
+use App\AllocationType;
 use App\Budget;
 use App\Category;
 use App\Fund;
 use App\FundTemplate;
 use App\School;
+use App\Invoice;
 use App\SchoolYear;
 use App\AllocationFundTemplate;
 use Illuminate\Http\Request;
@@ -203,4 +205,28 @@ class StatisticsController extends Controller
 
         return response()->json(['item' => $totalWithPercenatge, 'success' => $success, 'errorMessage' => $errorMessage]);
     }
+    
+    public function getInvoiceTotals()
+    {
+        $success = true;
+        $errorMessage = '';
+        $totalInvoice = 0;
+        $totalPaid = 0;
+        $remaining = 0;
+        $invoiceCount = 0;
+        try {
+            $query = Invoice::query();
+            $invoiceCount = $query->count();
+            $totalInvoice = round($query->sum('total_amount'),2);
+            $totalPaid = round($query->where('invoice_status_id',Invoice::PAID)->sum('total_amount'),2);
+            $remaining = round($totalInvoice - $totalPaid , 2);
+            
+        } catch (Throwable $e) {
+            $success = false;
+            $errorMessage = $e->getMessage();
+        }
+
+        return response()->json(['invoiceTotals'=>['invoiceCount' => $invoiceCount,'totalInvoice'=>$totalInvoice,'totalPaid'=>$totalPaid, 'remaining'=>$remaining], 'success' => $success, 'errorMessage' => $errorMessage]);
+    }
+
 }
